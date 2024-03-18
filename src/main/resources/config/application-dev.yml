@@ -29,6 +29,10 @@ management:
       probability: 1.0 # report 100% of traces
 
 spring:
+  rabbitmq:
+    host: localhost
+    username: rmuser
+    password: rmpassword_utm
   devtools:
     restart:
       enabled: true
@@ -86,4 +90,13 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  tokens:
+    telegram: 123
+    viber: 123
+  api-url:
+    telegram: https://api.telegram.org/%s/sendMessage
+    viber: https://chatapi.viber.com/pa/send_message
+  bots-data:
+    telegram: inotificarebot
+    viber: inotificare
