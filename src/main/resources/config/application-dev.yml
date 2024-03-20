@@ -42,6 +42,18 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: depozitar.situatii.financiare@gmail.com
+    password: 123
+    properties.mail.smtp:
+      auth: true
+      connectiontimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:

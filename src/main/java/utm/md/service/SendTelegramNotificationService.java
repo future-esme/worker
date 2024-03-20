@@ -30,8 +30,8 @@ public class SendTelegramNotificationService {
         var address = url.formatted(token);
         var uriBuilder = UriComponentsBuilder
             .fromHttpUrl(address)
-            .queryParam(TELEGRAM_CHAT_ID, notification.receiver())
-            .queryParam(TELEGRAM_MESSAGE_TEXT, notification.message())
+            .queryParam(TELEGRAM_CHAT_ID, notification.getReceiver())
+            .queryParam(TELEGRAM_MESSAGE_TEXT, notification.getContent())
             .encode()
             .toUriString();
         var response = restTemplate.getForEntity(uriBuilder, String.class);

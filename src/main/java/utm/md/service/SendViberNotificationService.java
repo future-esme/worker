@@ -32,7 +32,7 @@ public class SendViberNotificationService {
     }
 
     public void sendNotification(NotificationDTO notification) {
-        var notificationBody = new ViberNotificationDTO(notification.receiver(), ViberMessageTypeEnum.text, viberSenderBotDTO, notification.message());
+        var notificationBody = new ViberNotificationDTO(notification.getReceiver(), ViberMessageTypeEnum.text, viberSenderBotDTO, notification.getContent());
         HttpEntity<ViberNotificationDTO> request = new HttpEntity<>(notificationBody, RequestUtil.getHttpHeaders(token));
         var response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }

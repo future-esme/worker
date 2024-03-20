@@ -24,6 +24,7 @@ services:
       spring.rabbitmq.port: 5672
       spring.rabbitmq.username: rmuser
       spring.rabbitmq.password: rmpassword_utm
+      spring.mail.password: ${TOKEN_EMAIL}
       server.port: 8085
       spring.application.name: worker-telegram
       spring.profiles.active: telegram,dev
@@ -42,6 +43,7 @@ services:
       spring.rabbitmq.port: 5672
       spring.rabbitmq.username: rmuser
       spring.rabbitmq.password: rmpassword_utm
+      spring.mail.password: ${TOKEN_EMAIL}
       server.port: 8086
       spring.application.name: worker-viber
       spring.profiles.active: viber,dev
@@ -53,7 +55,25 @@ services:
       - '8086:8086'
     networks:
       - ms-network
-
+  worker-email:
+    image: 'worker:v0.1'
+    environment:
+      spring.rabbitmq.host: rabbitmq-notify
+      spring.rabbitmq.port: 5672
+      spring.rabbitmq.username: rmuser
+      spring.rabbitmq.password: rmpassword_utm
+      spring.mail.password: ${TOKEN_EMAIL}
+      server.port: 8087
+      spring.application.name: worker-email
+      spring.profiles.active: mail,dev
+      application.tokens.telegram: ${TOKEN_TELEGRAM}
+      application.tokens.viber: ${TOKEN_VIBER}
+    depends_on:
+      - rabbitmq-notify
+    ports:
+      - '8087:8087'
+    networks:
+      - ms-network
 networks:
   ms-network:
     driver: bridge
