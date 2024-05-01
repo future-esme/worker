@@ -1,5 +1,18 @@
 version: '1.0'
 services:
+  minio:
+    image: docker.io/bitnami/minio:2022
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - ms-network
+    volumes:
+      - 'minio_inotificare:/data'
+    environment:
+      - MINIO_ROOT_USER=access_key
+      - MINIO_ROOT_PASSWORD=secret_key
+      - MINIO_DEFAULT_BUCKETS=qr-code
   rabbitmq-notify:
     image: rabbitmq:3-management-alpine
     hostname: rabbitmq
@@ -74,6 +87,28 @@ services:
       - '8087:8087'
     networks:
       - ms-network
+  inotificare:
+    image: 'inotificare:v0.1'
+    environment:
+      spring.datasource.url: jdbc:postgresql://localhost:5432/inotificare
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
+      application.minio.uri: http://127.0.0.1:9000
+      application.minio.access-key: access_key
+      application.minio.secret-key: secret_key
+      server.port: 8087
+      spring.profiles.active: dev
+    depends_on:
+      - rabbitmq-notify
+      - minio
+    ports:
+      - '8087:8087'
+    networks:
+      - ms-network
+
+volumes:
+  minio_inotificare:
+
 networks:
   ms-network:
     driver: bridge
