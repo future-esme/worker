@@ -24,10 +24,9 @@ public class MailListener {
         this.sendEmailNotificationService = sendEmailNotificationService;
     }
 
-
     @RabbitListener(queues = MAIL_QUEUE)
     public void receiveMessage(NotificationDTO notification) {
-        log.info("Receive telegramEvent event ");
+        log.info("Receive mailEvent event ");
         sendEmailNotificationService.sendNotification(notification);
     }
 }

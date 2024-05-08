@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import utm.md.service.SendViberNotificationService;
 import utm.md.service.dto.NotificationDTO;
+import utm.md.service.dto.NotificationShortDTO;
 
 import static utm.md.config.rabbitmq.RabbitMqConstants.TELEGRAM_QUEUE;
+import static utm.md.config.rabbitmq.RabbitMqConstants.VIBER_QUEUE;
 
 @Profile({"viber"})
 @Component
@@ -25,9 +27,9 @@ public class ViberListener {
     }
 
 
-    @RabbitListener(queues = TELEGRAM_QUEUE)
+    @RabbitListener(queues = VIBER_QUEUE)
     public void receiveMessage(NotificationDTO notification) {
-        log.info("Receive telegramEvent event ");
-        viberNotificationService.sendNotification(notification);
+        log.info("Receive viberEvent event ");
+        viberNotificationService.sendNotification((NotificationShortDTO) notification);
     }
 }

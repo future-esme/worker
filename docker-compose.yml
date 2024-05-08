@@ -31,7 +31,7 @@ services:
       - ms-network
 
   worker-telegram:
-    image: 'worker:v0.1'
+    image: '2014003/worker:v0.2'
     environment:
       spring.rabbitmq.host: rabbitmq-notify
       spring.rabbitmq.port: 5672
@@ -50,7 +50,7 @@ services:
     networks:
       - ms-network
   worker-viber:
-    image: 'worker:v0.1'
+    image: '2014003/worker:v0.2'
     environment:
       spring.rabbitmq.host: rabbitmq-notify
       spring.rabbitmq.port: 5672
@@ -69,7 +69,7 @@ services:
     networks:
       - ms-network
   worker-email:
-    image: 'worker:v0.1'
+    image: '2014003/worker:v0.2'
     environment:
       spring.rabbitmq.host: rabbitmq-notify
       spring.rabbitmq.port: 5672
@@ -78,7 +78,7 @@ services:
       spring.mail.password: ${TOKEN_EMAIL}
       server.port: 8087
       spring.application.name: worker-email
-      spring.profiles.active: mail,dev
+      spring.profiles.active: mail,prod
       application.tokens.telegram: ${TOKEN_TELEGRAM}
       application.tokens.viber: ${TOKEN_VIBER}
     depends_on:
@@ -88,21 +88,25 @@ services:
     networks:
       - ms-network
   inotificare:
-    image: 'inotificare:v0.1'
+    image: '2014003/inotificare:v0.1'
     environment:
-      spring.datasource.url: jdbc:postgresql://localhost:5432/inotificare
+      spring.rabbitmq.host: rabbitmq-notify
+      spring.rabbitmq.port: 5672
+      spring.rabbitmq.username: rmuser
+      spring.rabbitmq.password: rmpassword_utm
+      spring.datasource.url: jdbc:postgresql://host.docker.internal:5432/inotificare
       spring.datasource.username: postgres
       spring.datasource.password: postgres
-      application.minio.uri: http://127.0.0.1:9000
+      application.minio.uri: http://minio:9000
       application.minio.access-key: access_key
       application.minio.secret-key: secret_key
-      server.port: 8087
-      spring.profiles.active: dev
+      server.port: 8080
+      spring.profiles.active: prod
     depends_on:
       - rabbitmq-notify
       - minio
     ports:
-      - '8087:8087'
+      - '8080:8080'
     networks:
       - ms-network
 

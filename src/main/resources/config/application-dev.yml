@@ -33,6 +33,7 @@ spring:
     host: localhost
     username: rmuser
     password: rmpassword_utm
+    port: 5672
   devtools:
     restart:
       enabled: true

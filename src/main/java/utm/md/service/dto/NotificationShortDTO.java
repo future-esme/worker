@@ -1,18 +1,15 @@
 package utm.md.service.dto;
 
-public class NotificationSubjectDTO implements NotificationDTO {
+public class NotificationShortDTO implements NotificationDTO {
     private String receiver;
     private String content;
 
-    private String subject;
-
-    public NotificationSubjectDTO() {
+    public NotificationShortDTO() {
     }
 
-    public NotificationSubjectDTO(String receiver, String content, String subject) {
+    public NotificationShortDTO(String receiver, String content) {
         this.receiver = receiver;
         this.content = content;
-        this.subject = subject;
     }
 
     public String getReceiver() {
@@ -31,18 +28,10 @@ public class NotificationSubjectDTO implements NotificationDTO {
         this.content = content;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     @Override
     public String toString() {
-        return "NotificationSubjectDTO{" +
-            "subject='" + subject + '\'' +
+        return "NotificationDTO{" +
+            "receiver='" + receiver + '\'' +
             '}';
     }
 }

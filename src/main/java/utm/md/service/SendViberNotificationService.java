@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import utm.md.config.ApplicationProperties;
 import utm.md.service.dto.NotificationDTO;
+import utm.md.service.dto.NotificationShortDTO;
 import utm.md.service.dto.viber.ViberMessageTypeEnum;
 import utm.md.service.dto.viber.ViberNotificationDTO;
 import utm.md.service.dto.viber.ViberSenderBotDTO;
@@ -31,7 +32,7 @@ public class SendViberNotificationService {
         this.restTemplate = RequestUtil.getRestTemplate();
     }
 
-    public void sendNotification(NotificationDTO notification) {
+    public void sendNotification(NotificationShortDTO notification) {
         var notificationBody = new ViberNotificationDTO(notification.getReceiver(), ViberMessageTypeEnum.text, viberSenderBotDTO, notification.getContent());
         HttpEntity<ViberNotificationDTO> request = new HttpEntity<>(notificationBody, RequestUtil.getHttpHeaders(token));
         var response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);

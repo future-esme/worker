@@ -6,6 +6,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import utm.md.config.ApplicationProperties;
 import utm.md.service.dto.NotificationDTO;
+import utm.md.service.dto.NotificationShortDTO;
+import utm.md.service.dto.telegram.TelegramDTO;
 
 import static utm.md.util.RequestUtil.TELEGRAM_CHAT_ID;
 import static utm.md.util.RequestUtil.TELEGRAM_MESSAGE_TEXT;
@@ -25,15 +27,10 @@ public class SendTelegramNotificationService {
         this.url = applicationProperties.getApiUrl().getTelegram();
     }
 
-    public void sendNotification(NotificationDTO notification) {
+    public void sendNotification(NotificationShortDTO notification) {
         var restTemplate = new RestTemplate();
         var address = url.formatted(token);
-        var uriBuilder = UriComponentsBuilder
-            .fromHttpUrl(address)
-            .queryParam(TELEGRAM_CHAT_ID, notification.getReceiver())
-            .queryParam(TELEGRAM_MESSAGE_TEXT, notification.getContent())
-            .encode()
-            .toUriString();
-        var response = restTemplate.getForEntity(uriBuilder, String.class);
+        var body = new TelegramDTO(notification.getReceiver(), notification.getContent());
+        var response = restTemplate.postForEntity(address, body, String.class);
     }
 }
